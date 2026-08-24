@@ -1,0 +1,14 @@
+node_modules
+.output
+.tanstack
+.nitro
+.vercel
+dist
+.vite
+*.log
+.env
+.env.*
+screenshots
+artifacts
+.grok/app-env.json
+*.tsbuildinfo
