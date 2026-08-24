@@ -1,0 +1,340 @@
+import type { ModelSpec, ProviderId, ProviderSpec } from "../types";
+import { ALIBABA_MODELS } from "./alibaba";
+import { AMAZON_MODELS } from "./amazon";
+import { ANTHROPIC_MODELS } from "./anthropic";
+import { AZURE_MODELS } from "./azure";
+import { BEDROCK_MODELS } from "./bedrock";
+import { CEREBRAS_MODELS } from "./cerebras";
+import { COHERE_MODELS } from "./cohere";
+import { DEEPINFRA_MODELS } from "./deepinfra";
+import { DEEPSEEK_MODELS } from "./deepseek";
+import { FIREWORKS_MODELS } from "./fireworks";
+import { GOOGLE_MODELS } from "./google";
+import { GROQ_MODELS } from "./groq";
+import { HUGGINGFACE_MODELS } from "./huggingface";
+import { MISTRAL_MODELS } from "./mistral";
+import { MOONSHOT_MODELS } from "./moonshot";
+import { NVIDIA_MODELS } from "./nvidia";
+import { OPENAI_MODELS } from "./openai";
+import { OPENROUTER_MODELS } from "./openrouter";
+import { PERPLEXITY_MODELS } from "./perplexity";
+import { SAMBANOVA_MODELS } from "./sambanova";
+import { TOGETHER_MODELS } from "./together";
+import { XAI_MODELS } from "./xai";
+import { ZAI_MODELS } from "./zai";
+
+export const ALL_MODELS: ModelSpec[] = [
+  ...ALIBABA_MODELS,
+  ...AMAZON_MODELS,
+  ...ANTHROPIC_MODELS,
+  ...AZURE_MODELS,
+  ...BEDROCK_MODELS,
+  ...CEREBRAS_MODELS,
+  ...COHERE_MODELS,
+  ...DEEPINFRA_MODELS,
+  ...DEEPSEEK_MODELS,
+  ...FIREWORKS_MODELS,
+  ...GOOGLE_MODELS,
+  ...GROQ_MODELS,
+  ...HUGGINGFACE_MODELS,
+  ...MISTRAL_MODELS,
+  ...MOONSHOT_MODELS,
+  ...NVIDIA_MODELS,
+  ...OPENAI_MODELS,
+  ...OPENROUTER_MODELS,
+  ...PERPLEXITY_MODELS,
+  ...SAMBANOVA_MODELS,
+  ...TOGETHER_MODELS,
+  ...XAI_MODELS,
+  ...ZAI_MODELS,
+];
+
+const byId: Record<string, ModelSpec> = {};
+for (const m of ALL_MODELS) byId[m.id] = m;
+export function getModel(id: string): ModelSpec | undefined { return byId[id]; }
+export function modelsFor(provider: ProviderId): ModelSpec[] { return ALL_MODELS.filter((m) => m.provider === provider); }
+export function findByAlias(alias: string): ModelSpec | undefined {
+  const lower = alias.toLowerCase();
+  return ALL_MODELS.find((m) => m.id === alias || m.id.endsWith('/' + alias) || m.displayName.toLowerCase() === lower);
+}
+
+export const PROVIDERS: ProviderSpec[] = [
+  {
+    id: 'openai',
+    displayName: 'OpenAI',
+    defaultBaseUrl: 'https://api.openai.com/v1',
+    docsUrl: 'https://platform.openai.com/docs',
+    authHeader: 'bearer',
+    protocols: ['openai-chat', 'openai-embeddings'],
+    healthPath: '/models',
+    streaming: true,
+    notes: 'OpenAI is wired as a first-class Hold My Beer provider. Credentials stay encrypted at rest; the control plane never echoes them into evidence.',
+  },
+  {
+    id: 'anthropic',
+    displayName: 'Anthropic',
+    defaultBaseUrl: 'https://api.anthropic.com',
+    docsUrl: 'https://docs.anthropic.com',
+    authHeader: 'x-api-key',
+    protocols: ['openai-chat', 'openai-embeddings'],
+    healthPath: '/v1/messages',
+    streaming: true,
+    notes: 'Anthropic is wired as a first-class Hold My Beer provider. Credentials stay encrypted at rest; the control plane never echoes them into evidence.',
+  },
+  {
+    id: 'google',
+    displayName: 'Google',
+    defaultBaseUrl: 'https://generativelanguage.googleapis.com/v1beta',
+    docsUrl: 'https://ai.google.dev',
+    authHeader: 'bearer',
+    protocols: ['openai-chat', 'openai-embeddings'],
+    healthPath: '/models',
+    streaming: true,
+    notes: 'Google is wired as a first-class Hold My Beer provider. Credentials stay encrypted at rest; the control plane never echoes them into evidence.',
+  },
+  {
+    id: 'xai',
+    displayName: 'xAI',
+    defaultBaseUrl: 'https://api.x.ai/v1',
+    docsUrl: 'https://docs.x.ai',
+    authHeader: 'bearer',
+    protocols: ['openai-chat', 'openai-embeddings'],
+    healthPath: '/models',
+    streaming: true,
+    notes: 'xAI is wired as a first-class Hold My Beer provider. Credentials stay encrypted at rest; the control plane never echoes them into evidence.',
+  },
+  {
+    id: 'amazon',
+    displayName: 'Amazon Bedrock',
+    defaultBaseUrl: 'https://bedrock-runtime.us-east-1.amazonaws.com',
+    docsUrl: 'https://docs.aws.amazon.com/bedrock',
+    authHeader: 'gcp',
+    protocols: ['openai-chat', 'openai-embeddings'],
+    healthPath: '/',
+    streaming: true,
+    notes: 'Amazon Bedrock is wired as a first-class Hold My Beer provider. Credentials stay encrypted at rest; the control plane never echoes them into evidence.',
+  },
+  {
+    id: 'azure',
+    displayName: 'Azure OpenAI',
+    defaultBaseUrl: 'https://{resource}.openai.azure.com/openai',
+    docsUrl: 'https://learn.microsoft.com/azure/ai-services',
+    authHeader: 'azure',
+    protocols: ['openai-chat', 'openai-embeddings'],
+    healthPath: '/models',
+    streaming: true,
+    notes: 'Azure OpenAI is wired as a first-class Hold My Beer provider. Credentials stay encrypted at rest; the control plane never echoes them into evidence.',
+  },
+  {
+    id: 'mistral',
+    displayName: 'Mistral',
+    defaultBaseUrl: 'https://api.mistral.ai/v1',
+    docsUrl: 'https://docs.mistral.ai',
+    authHeader: 'bearer',
+    protocols: ['openai-chat', 'openai-embeddings'],
+    healthPath: '/models',
+    streaming: true,
+    notes: 'Mistral is wired as a first-class Hold My Beer provider. Credentials stay encrypted at rest; the control plane never echoes them into evidence.',
+  },
+  {
+    id: 'cohere',
+    displayName: 'Cohere',
+    defaultBaseUrl: 'https://api.cohere.com/v2',
+    docsUrl: 'https://docs.cohere.com',
+    authHeader: 'bearer',
+    protocols: ['openai-chat', 'openai-embeddings'],
+    healthPath: '/models',
+    streaming: true,
+    notes: 'Cohere is wired as a first-class Hold My Beer provider. Credentials stay encrypted at rest; the control plane never echoes them into evidence.',
+  },
+  {
+    id: 'groq',
+    displayName: 'Groq',
+    defaultBaseUrl: 'https://api.groq.com/openai/v1',
+    docsUrl: 'https://console.groq.com/docs',
+    authHeader: 'bearer',
+    protocols: ['openai-chat', 'openai-embeddings'],
+    healthPath: '/models',
+    streaming: true,
+    notes: 'Groq is wired as a first-class Hold My Beer provider. Credentials stay encrypted at rest; the control plane never echoes them into evidence.',
+  },
+  {
+    id: 'together',
+    displayName: 'Together AI',
+    defaultBaseUrl: 'https://api.together.xyz/v1',
+    docsUrl: 'https://docs.together.ai',
+    authHeader: 'bearer',
+    protocols: ['openai-chat', 'openai-embeddings'],
+    healthPath: '/models',
+    streaming: true,
+    notes: 'Together AI is wired as a first-class Hold My Beer provider. Credentials stay encrypted at rest; the control plane never echoes them into evidence.',
+  },
+  {
+    id: 'fireworks',
+    displayName: 'Fireworks',
+    defaultBaseUrl: 'https://api.fireworks.ai/inference/v1',
+    docsUrl: 'https://docs.fireworks.ai',
+    authHeader: 'bearer',
+    protocols: ['openai-chat', 'openai-embeddings'],
+    healthPath: '/models',
+    streaming: true,
+    notes: 'Fireworks is wired as a first-class Hold My Beer provider. Credentials stay encrypted at rest; the control plane never echoes them into evidence.',
+  },
+  {
+    id: 'deepseek',
+    displayName: 'DeepSeek',
+    defaultBaseUrl: 'https://api.deepseek.com/v1',
+    docsUrl: 'https://platform.deepseek.com',
+    authHeader: 'bearer',
+    protocols: ['openai-chat', 'openai-embeddings'],
+    healthPath: '/models',
+    streaming: true,
+    notes: 'DeepSeek is wired as a first-class Hold My Beer provider. Credentials stay encrypted at rest; the control plane never echoes them into evidence.',
+  },
+  {
+    id: 'alibaba',
+    displayName: 'Alibaba',
+    defaultBaseUrl: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
+    docsUrl: 'https://www.alibabacloud.com/help/dashscope',
+    authHeader: 'bearer',
+    protocols: ['openai-chat', 'openai-embeddings'],
+    healthPath: '/models',
+    streaming: true,
+    notes: 'Alibaba is wired as a first-class Hold My Beer provider. Credentials stay encrypted at rest; the control plane never echoes them into evidence.',
+  },
+  {
+    id: 'meta',
+    displayName: 'Meta (hosted)',
+    defaultBaseUrl: 'https://api.llama.com/v1',
+    docsUrl: 'https://llama.meta.com',
+    authHeader: 'bearer',
+    protocols: ['openai-chat', 'openai-embeddings'],
+    healthPath: '/models',
+    streaming: true,
+    notes: 'Meta (hosted) is wired as a first-class Hold My Beer provider. Credentials stay encrypted at rest; the control plane never echoes them into evidence.',
+  },
+  {
+    id: 'perplexity',
+    displayName: 'Perplexity',
+    defaultBaseUrl: 'https://api.perplexity.ai',
+    docsUrl: 'https://docs.perplexity.ai',
+    authHeader: 'bearer',
+    protocols: ['openai-chat', 'openai-embeddings'],
+    healthPath: '/models',
+    streaming: true,
+    notes: 'Perplexity is wired as a first-class Hold My Beer provider. Credentials stay encrypted at rest; the control plane never echoes them into evidence.',
+  },
+  {
+    id: 'nvidia',
+    displayName: 'NVIDIA NIM',
+    defaultBaseUrl: 'https://integrate.api.nvidia.com/v1',
+    docsUrl: 'https://docs.nvidia.com/nim',
+    authHeader: 'bearer',
+    protocols: ['openai-chat', 'openai-embeddings'],
+    healthPath: '/models',
+    streaming: true,
+    notes: 'NVIDIA NIM is wired as a first-class Hold My Beer provider. Credentials stay encrypted at rest; the control plane never echoes them into evidence.',
+  },
+  {
+    id: 'cerebras',
+    displayName: 'Cerebras',
+    defaultBaseUrl: 'https://api.cerebras.ai/v1',
+    docsUrl: 'https://inference-docs.cerebras.ai',
+    authHeader: 'bearer',
+    protocols: ['openai-chat', 'openai-embeddings'],
+    healthPath: '/models',
+    streaming: true,
+    notes: 'Cerebras is wired as a first-class Hold My Beer provider. Credentials stay encrypted at rest; the control plane never echoes them into evidence.',
+  },
+  {
+    id: 'sambanova',
+    displayName: 'SambaNova',
+    defaultBaseUrl: 'https://api.sambanova.ai/v1',
+    docsUrl: 'https://docs.sambanova.ai',
+    authHeader: 'bearer',
+    protocols: ['openai-chat', 'openai-embeddings'],
+    healthPath: '/models',
+    streaming: true,
+    notes: 'SambaNova is wired as a first-class Hold My Beer provider. Credentials stay encrypted at rest; the control plane never echoes them into evidence.',
+  },
+  {
+    id: 'huggingface',
+    displayName: 'Hugging Face',
+    defaultBaseUrl: 'https://router.huggingface.co/v1',
+    docsUrl: 'https://huggingface.co/docs/inference-providers',
+    authHeader: 'bearer',
+    protocols: ['openai-chat', 'openai-embeddings'],
+    healthPath: '/models',
+    streaming: true,
+    notes: 'Hugging Face is wired as a first-class Hold My Beer provider. Credentials stay encrypted at rest; the control plane never echoes them into evidence.',
+  },
+  {
+    id: 'openrouter',
+    displayName: 'OpenRouter',
+    defaultBaseUrl: 'https://openrouter.ai/api/v1',
+    docsUrl: 'https://openrouter.ai/docs',
+    authHeader: 'bearer',
+    protocols: ['openai-chat', 'openai-embeddings'],
+    healthPath: '/models',
+    streaming: true,
+    notes: 'OpenRouter is wired as a first-class Hold My Beer provider. Credentials stay encrypted at rest; the control plane never echoes them into evidence.',
+  },
+  {
+    id: 'deepinfra',
+    displayName: 'DeepInfra',
+    defaultBaseUrl: 'https://api.deepinfra.com/v1/openai',
+    docsUrl: 'https://deepinfra.com/docs',
+    authHeader: 'bearer',
+    protocols: ['openai-chat', 'openai-embeddings'],
+    healthPath: '/models',
+    streaming: true,
+    notes: 'DeepInfra is wired as a first-class Hold My Beer provider. Credentials stay encrypted at rest; the control plane never echoes them into evidence.',
+  },
+  {
+    id: 'vertex',
+    displayName: 'Vertex AI',
+    defaultBaseUrl: 'https://{region}-aiplatform.googleapis.com/v1',
+    docsUrl: 'https://cloud.google.com/vertex-ai/docs',
+    authHeader: 'gcp',
+    protocols: ['openai-chat', 'openai-embeddings'],
+    healthPath: '/',
+    streaming: true,
+    notes: 'Vertex AI is wired as a first-class Hold My Beer provider. Credentials stay encrypted at rest; the control plane never echoes them into evidence.',
+  },
+  {
+    id: 'bedrock',
+    displayName: 'Bedrock (direct)',
+    defaultBaseUrl: 'https://bedrock-runtime.us-west-2.amazonaws.com',
+    docsUrl: 'https://docs.aws.amazon.com/bedrock',
+    authHeader: 'gcp',
+    protocols: ['openai-chat', 'openai-embeddings'],
+    healthPath: '/',
+    streaming: true,
+    notes: 'Bedrock (direct) is wired as a first-class Hold My Beer provider. Credentials stay encrypted at rest; the control plane never echoes them into evidence.',
+  },
+  {
+    id: 'moonshot',
+    displayName: 'Moonshot',
+    defaultBaseUrl: 'https://api.moonshot.ai/v1',
+    docsUrl: 'https://platform.moonshot.ai',
+    authHeader: 'bearer',
+    protocols: ['openai-chat', 'openai-embeddings'],
+    healthPath: '/models',
+    streaming: true,
+    notes: 'Moonshot is wired as a first-class Hold My Beer provider. Credentials stay encrypted at rest; the control plane never echoes them into evidence.',
+  },
+  {
+    id: 'zai',
+    displayName: 'Z.AI',
+    defaultBaseUrl: 'https://api.z.ai/api/paas/v4',
+    docsUrl: 'https://docs.z.ai',
+    authHeader: 'bearer',
+    protocols: ['openai-chat', 'openai-embeddings'],
+    healthPath: '/models',
+    streaming: true,
+    notes: 'Z.AI is wired as a first-class Hold My Beer provider. Credentials stay encrypted at rest; the control plane never echoes them into evidence.',
+  },
+];
+export function getProvider(id: ProviderId): ProviderSpec | undefined { return PROVIDERS.find((p) => p.id === id); }
+export const MODEL_COUNT = ALL_MODELS.length;
+export const PROVIDER_COUNT = PROVIDERS.length;
