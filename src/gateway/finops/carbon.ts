@@ -1,0 +1,21 @@
+export interface RegionCarbon { region: string; gPerKwh: number; notes: string }
+export const REGION_CARBON: RegionCarbon[] = [
+  { region: 'us-east-2024', gPerKwh: 385, notes: 'Virginia mix, lots of new solar, still gas-heavy nights. Year 2024 intensity.' },
+  { region: 'us-east-2025', gPerKwh: 373, notes: 'Virginia mix, lots of new solar, still gas-heavy nights. Year 2025 intensity.' },
+  { region: 'us-east-2026', gPerKwh: 361, notes: 'Virginia mix, lots of new solar, still gas-heavy nights. Year 2026 intensity.' },
+  { region: 'us-west-2024', gPerKwh: 240, notes: 'Columbia river hydro plus California midday solar. Year 2024 intensity.' },
+  { region: 'us-west-2025', gPerKwh: 228, notes: 'Columbia river hydro plus California midday solar. Year 2025 intensity.' },
+  { region: 'us-west-2026', gPerKwh: 216, notes: 'Columbia river hydro plus California midday solar. Year 2026 intensity.' },
+  { region: 'eu-west-2024', gPerKwh: 280, notes: 'Ireland/Netherlands mix. Year 2024 intensity.' },
+  { region: 'eu-west-2025', gPerKwh: 268, notes: 'Ireland/Netherlands mix. Year 2025 intensity.' },
+  { region: 'eu-west-2026', gPerKwh: 256, notes: 'Ireland/Netherlands mix. Year 2026 intensity.' },
+  { region: 'eu-central-2024', gPerKwh: 350, notes: 'Germany remaining coal shoulder. Year 2024 intensity.' },
+  { region: 'eu-central-2025', gPerKwh: 338, notes: 'Germany remaining coal shoulder. Year 2025 intensity.' },
+  { region: 'eu-central-2026', gPerKwh: 326, notes: 'Germany remaining coal shoulder. Year 2026 intensity.' },
+  { region: 'asia-east-2024', gPerKwh: 520, notes: 'Grid mix varies; treat as conservative. Year 2024 intensity.' },
+  { region: 'asia-east-2025', gPerKwh: 508, notes: 'Grid mix varies; treat as conservative. Year 2025 intensity.' },
+  { region: 'asia-east-2026', gPerKwh: 496, notes: 'Grid mix varies; treat as conservative. Year 2026 intensity.' },
+  { region: 'asia-northeast-2024', gPerKwh: 470, notes: 'Japan/Korea mix. Year 2024 intensity.' },
+  { region: 'asia-northeast-2025', gPerKwh: 458, notes: 'Japan/Korea mix. Year 2025 intensity.' },
+  { region: 'asia-northeast-2026', gPerKwh: 446, notes: 'Japan/Korea mix. Year 2026 intensity.' },
+];
